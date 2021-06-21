@@ -1,0 +1,7 @@
+/var/log/whiteboardbot/bot.log {
+        monthly
+        compress
+        notifempty
+        rotate 12
+        copytruncate
+}

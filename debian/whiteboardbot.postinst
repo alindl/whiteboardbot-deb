@@ -1,0 +1,99 @@
+#!/bin/bash
+
+#
+# "whiteboardbot" postinst script
+#
+
+#@Synopsis Post-Installation script for Whiteboardbot
+#@Copyright 2020 University of Salzburg
+#@License GNU GPL v3.0
+#@Author Andreas Lindlbauer
+
+# I hate this command so much, you cost me 3 hours of searching, please die
+#set -e
+
+#DEBHELPER#
+
+# Add your own code here, note that some "dh_venv_*" env vars are available,
+# at least these ones:
+#
+#   dh_venv_package         Name of the Debian package
+#   dh_venv_install_dir     Root directory for the installed virtualenv
+
+#dh_venv_install_dir=/usr/lib/whiteboardbot/
+
+# "set -e" is done before, but we don't want to have an error kill the script
+# I hate this command so much, you cost me 3 hours of searching, please die
+set +e
+
+dh_venv_install_dir=/usr/lib/whiteboardbot/
+
+cd "$dh_venv_install_dir" || exit
+
+##----------- Logs
+# Make log directory and generate bot.log file
+mkdir -p /var/log/whiteboardbot
+touch /var/log/whiteboardbot/bot.log
+# Set permissions for log directory
+sudo chown -R --from=root:root whiteboardbot:whiteboardbot /var/log/whiteboardbot
+
+
+##----------- Linker
+# Link enhancer script and sounds directory directly to root directory of application 
+ln -f lib/python3.*/site-packages/whiteboardbot/enhancer.sh enhancer.sh
+ln -fs lib/python3.*/site-packages/whiteboardbot/sounds/ 
+
+
+##----------- Bluetooth
+
+# Set needed permissions for bluetooth
+sudo setcap 'cap_net_raw,cap_net_admin+eip' "$(find "$dh_venv_install_dir" -name bluepy-helper)"
+
+# Disable the sap plugin, we don't need it
+sudo mkdir -p /etc/systemd/system/bluetooth.service.d/
+sudo touch /etc/systemd/system/bluetooth.service.d/01-disable-sap-plugin.conf
+echo "[Service]
+ExecStart=
+ExecStart=/usr/lib/bluetooth/bluetoothd --compat --noplugin=sap -E
+" | sudo tee /etc/systemd/system/bluetooth.service.d/01-disable-sap-plugin.conf > /dev/null
+sudo sed -i 's/# Privacy = off/Privacy = off/' /etc/bluetooth/main.conf
+
+
+##----------- Config file
+# Set permissions for config file
+sudo chown --from=root:root whiteboardbot:whiteboardbot /etc/whiteboardbot.conf
+
+##----------- Webserver
+# Set port for webserver access
+touch /etc/authbind/byport/80
+chown whiteboardbot:whiteboardbot /etc/authbind/byport/80
+chmod 500 /etc/authbind/byport/80
+
+##----------- User permissions
+# Add whiteboardbot to sudoers file and give permissions to restart the bot and server without password
+touch /etc/sudoers.d/010_whiteboardbot
+echo "%whiteboardbot ALL= NOPASSWD: /bin/systemctl start wbb-server.service
+%whiteboardbot ALL= NOPASSWD: /bin/systemctl stop wbb-server.service
+%whiteboardbot ALL= NOPASSWD: /bin/systemctl restart wbb-server.service
+%whiteboardbot ALL= NOPASSWD: /bin/systemctl start whiteboardbot.service
+%whiteboardbot ALL= NOPASSWD: /bin/systemctl stop whiteboardbot.service
+%whiteboardbot ALL= NOPASSWD: /bin/systemctl restart whiteboardbot.service" > /etc/sudoers.d/010_whiteboardbot
+# systemctl restart whiteboardbot.service
+
+
+##----------- Hostname
+# Change hostname from raspberry to whiteboardbot, needs reboot to work
+# This should also make the webserver reachable through 'whiteboardbot.local' in local network
+CURRENT_HOSTNAME=$(tr -d " \t\n\r" < /etc/hostname)
+NEW_HOSTNAME="whiteboardbot"
+echo $NEW_HOSTNAME > /etc/hostname
+sed -i "s/127.0.1.1.*$CURRENT_HOSTNAME/127.0.1.1\t$NEW_HOSTNAME/g" /etc/hosts
+
+#"$dialog" --title "Reboot suggested" --msgbox "We suggest you to reboot, but you don't have to." 0 78
+echo "We suggest you to reboot or the webserver may not be reachable through 'whiteboardbot.local'"
+
+# Reload daemons and restart blueetooth
+sudo systemctl daemon-reload
+sudo systemctl restart bluetooth.service
+
+exit 0

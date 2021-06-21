@@ -1,0 +1,12 @@
+graft whiteboardbot/sounds
+graft whiteboardbot/static
+graft whiteboardbot/templates
+graft whiteboardbot/translations
+include whiteboardbot/whiteboardbot.conf
+include whiteboardbot/enhancer.sh
+include whiteboardbot/webserver.sh
+include whiteboardbot/messages.pot
+include whiteboardbot/babel.cfg
+# global-exclude *.py[cod] 
+# global-exclude __pycache__ 
+# global-exclude *.so

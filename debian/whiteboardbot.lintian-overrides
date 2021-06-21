@@ -1,0 +1,9 @@
+whiteboardbot: hardening-no-pie
+whiteboardbot: copyright-should-refer-to-common-license-file-for-lgpl
+whiteboardbot: package-installs-python-pycache-dir
+whiteboardbot: duplicate-font-file
+whiteboardbot: embedded-javascript-library
+whiteboardbot: portable-executable-missing-security-features
+whiteboardbot: privacy-breach-google-adsense
+whiteboardbot: binary-without-manpage
+whiteboardbot: wrong-path-for-interpreter

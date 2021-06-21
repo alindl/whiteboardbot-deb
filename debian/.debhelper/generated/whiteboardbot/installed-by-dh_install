@@ -1,0 +1,3 @@
+debian/whiteboardbot-0.3.0/whiteboardbot/whiteboardbot.conf
+debian/whiteboardbot-0.3.0/whiteboardbot/enhancer.sh
+debian/whiteboardbot-0.3.0/whiteboardbot/webserver.sh

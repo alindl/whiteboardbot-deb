@@ -1,0 +1,19 @@
+whiteboardbot (0.1.2) unstable; urgency=low
+
+  * whiteboardbot: Added upstream
+
+ -- Andreas Lindlbauer <andreas.lindlbauer@sbg.ac.at>  Thu, 25 Jun 2020 15:34:56 +0100
+
+
+whiteboardbot (0.1.1+nmu1) UNRELEASED; urgency=medium
+
+  * Fixed packaging of rtmbot and install folder
+
+ -- Andreas Lindlbauer <andreas.lindlbauer@sbg.ac.at>  Thu, 16 Apr 2020 14:23:09 +0100
+
+whiteboardbot (0.1.1) unstable; urgency=low
+
+
+  * whiteboardbot: Initial debian packaging
+
+ -- Andreas Lindlbauer <andreas.lindlbauer@sbg.ac.at>  Thu, 16 Apr 2020 12:34:56 +0200

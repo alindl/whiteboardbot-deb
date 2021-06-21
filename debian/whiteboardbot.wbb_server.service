@@ -1,0 +1,14 @@
+[Unit]
+Description=Whiteboardbot Config Webserver
+Requires=whiteboardbot.service
+PartOf=whiteboardbot.service
+After=multi-user.target
+
+[Service]
+User=whiteboardbot
+WorkingDirectory=/usr/lib/whiteboardbot/lib/python3.7/site-packages/whiteboardbot
+ExecStart=authbind /usr/lib/whiteboardbot/bin/gunicorn -b whiteboardbot.local:80 config_menu:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

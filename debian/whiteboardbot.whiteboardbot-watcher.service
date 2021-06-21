@@ -1,0 +1,10 @@
+[Unit]
+Description=whiteboardbot restarter
+
+[Service]
+User=whiteboardbot
+Type=simple
+ExecStart=sudo /bin/systemctl restart whiteboardbot.service
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+# "whiteboardbot" prerm script
+#
+
+#DEBHELPER#
+set -e
+
+deluser --system 'whiteboardbot'
+#groupdel whiteboardbot
+
+# Not needed, bluepy-helper is getting removed anyway
+#sudo setcap -r `find $dh_venv_install_dir -name bluepy-helper`
+
+echo $dh_venv_install_dir
+
+##----------- Files and directories
+# Wipe the files and directories that have been created
+sudo rm -rf /usr/lib/whiteboardbot/
+sudo rm -f /etc/systemd/system/bluetooth.service.d/01-disable-sap-plugin.conf
+
+##----------- Hostname
+# Change hostname back to raspberrypi, needs reboot to work
+CURRENT_HOSTNAME=$(tr -d " \t\n\r" < /etc/hostname)
+NEW_HOSTNAME="raspberrypi"
+echo $NEW_HOSTNAME > /etc/hostname
+sed -i "s/127.0.1.1.*$CURRENT_HOSTNAME/127.0.1.1\t$NEW_HOSTNAME/g" /etc/hosts

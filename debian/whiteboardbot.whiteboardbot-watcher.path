@@ -1,0 +1,7 @@
+[Path]
+PathModified=/etc/whiteboardbot.conf
+# trigger on changes to a file not just create/delete
+
+[Install]
+WantedBy=multi-user.target
+

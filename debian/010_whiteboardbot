@@ -1,0 +1,6 @@
+%whiteboardbot ALL= NOPASSWD: /bin/systemctl start whiteboardbot.service
+%whiteboardbot ALL= NOPASSWD: /bin/systemctl stop whiteboardbot.service
+%whiteboardbot ALL= NOPASSWD: /bin/systemctl restart whiteboardbot.service
+%whiteboardbot ALL= NOPASSWD: /bin/systemctl start wbb-server.service
+%whiteboardbot ALL= NOPASSWD: /bin/systemctl stop wbb-server.service
+%whiteboardbot ALL= NOPASSWD: /bin/systemctl restart wbb-server.service

@@ -1,0 +1,3 @@
+whiteboardbot/whiteboardbot.conf etc
+whiteboardbot/enhancer.sh /usr/lib/whiteboardbot/
+whiteboardbot/webserver.sh /usr/lib/whiteboardbot/

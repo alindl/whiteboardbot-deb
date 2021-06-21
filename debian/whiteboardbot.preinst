@@ -1,0 +1,31 @@
+#!/bin/sh
+#
+# "whiteboardbot" preinst script
+#
+set -e
+
+#DEBHELPER#
+
+# Add your own code here, note that some "dh_venv_*" env vars are available,
+# at least these ones:
+#
+#   dh_venv_package         Name of the Debian package
+#   dh_venv_install_dir     Root directory for the installed virtualenv
+
+cd $dh_venv_install_dir
+echo $dh_venv_install_dir
+
+#sudo setcap 'cap_net_raw+e' "$(find "$dh_venv_install_dir" -name bluepy-helper)"
+#sudo setcap 'cap_net_admin+eip' "$(find "$dh_venv_install_dir" -name bluepy-helper)"
+adduser --system whiteboardbot --home /var/lib/whiteboardbot --group 
+adduser whiteboardbot gpio
+adduser whiteboardbot video
+adduser whiteboardbot bluetooth
+adduser whiteboardbot audio
+#sudo adduser whiteboardbot sudo
+#sudo adduser whiteboardbot whiteboardbot
+
+
+#tree $dh_venv_install_dir
+
+exit 0
