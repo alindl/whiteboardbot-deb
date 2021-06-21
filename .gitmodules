@@ -1,0 +1,3 @@
+[submodule "whiteboardbot"]
+  path = project
+  url = ../whiteboardbot.git
