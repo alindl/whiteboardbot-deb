@@ -1,3 +1,5 @@
+This is a fork of the [original project](https://git.sbg.ac.at/center-for-hci/whiteboardbot/whiteboardbot-deb) from the Center of HCI at the University of Salzburg.
+
 # Whiteboardbot
 
 The Whiteboard capture, enhancement and sharing tool
